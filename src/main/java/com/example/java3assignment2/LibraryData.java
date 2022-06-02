@@ -1,6 +1,7 @@
 package com.example.java3assignment2;
 
 import java.io.*;
+import java.util.LinkedList;
 import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
@@ -21,7 +22,10 @@ public class LibraryData extends HttpServlet {
 
         //TODO Use a variable "view" to determine book or author query
 
-        List<Book> bookList = DBConnection.getAllBooks();
+//        List<Book> bookList = DBConnection.getAllBooks();
+//        System.out.println(bookList.get(0).title);
+        List<Book> bookList = new LinkedList<>();
+        bookList.add(new Book("123456", "mY BOOK", 2, "2012"));
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallbooks.jsp");
 
         request.setAttribute("booklist", bookList);
