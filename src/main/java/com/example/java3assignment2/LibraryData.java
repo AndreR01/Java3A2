@@ -5,12 +5,12 @@ import java.io.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
-public class HelloServlet extends HttpServlet {
+@WebServlet(name = "librarydata", value = "/library-data")
+public class LibraryData extends HttpServlet {
     private String message;
 
     public void init() {
-        message = "Hello World! How are you?";
+        message = "Landing page for library data";
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
