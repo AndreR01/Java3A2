@@ -11,30 +11,30 @@ public class DBConnection {
      * Note: this method is dangerous if the database is large. In our example it isn't.
      * @return List of Book objects
      */
-//    public static List<Book> getAllBooks() throws SQLException{
-//        LinkedList bookList = new LinkedList();
-//        try (
-//                Connection connection = getBooksDBConnection();
-//                Statement statement = connection.createStatement();
-//        ) {
-//            String sqlQuery = "SELECT * from " + BooksDatabaseSQL.BOOK_TABLE_NAME;
-//            ResultSet resultSet = statement.executeQuery(sqlQuery);
-//
-//            while(resultSet.next()) {
-//                bookList.add(
-//                        new Book(
-//                                resultSet.getString(BooksDatabaseSQL.BOOK_COL_NAME_ISBN),
-//                                resultSet.getString(BooksDatabaseSQL.BOOK_COL_NAME_TITLE),
-//                                resultSet.getInt(BooksDatabaseSQL.BOOK_COL_NAME_EDITION_NUMBER),
-//                                resultSet.getString(BooksDatabaseSQL.BOOK_COL_NAME_COPYRIGHT)
-//                        )
-//                );
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return bookList;
-//    }
+    public static List<Book> getAllBooks(){
+        LinkedList bookList = new LinkedList();
+        try (
+                Connection connection = getBooksDBConnection();
+                Statement statement = connection.createStatement();
+        ) {
+            String sqlQuery = "SELECT * from " + BooksDatabaseSQL.BOOK_TABLE_NAME;
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+            while(resultSet.next()) {
+                bookList.add(
+                        new Book(
+                                resultSet.getString(BooksDatabaseSQL.BOOK_COL_NAME_ISBN),
+                                resultSet.getString(BooksDatabaseSQL.BOOK_COL_NAME_TITLE),
+                                resultSet.getInt(BooksDatabaseSQL.BOOK_COL_NAME_EDITION_NUMBER),
+                                resultSet.getString(BooksDatabaseSQL.BOOK_COL_NAME_COPYRIGHT)
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookList;
+    }
 
 
 
