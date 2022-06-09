@@ -50,7 +50,8 @@ public class DBConnection {
         //The 4 values are the books attributes
         preparedStatement.setString(1, book.getIsbn());
         preparedStatement.setString(2, book.getTitle());
-        preparedStatement.setString(3, book.getEditionNumber());
+        //TODO is the String.valueOf the right method?
+        preparedStatement.setString(3, String.valueOf(book.getEditionNumber()));
         preparedStatement.setString(4, book.getCopyright());
         ;
 

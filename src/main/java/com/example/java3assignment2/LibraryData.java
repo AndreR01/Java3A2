@@ -32,16 +32,17 @@ public class LibraryData extends HttpServlet {
             String view = request.getParameter("view");
             //TODO add the list to the request
             requestDispatcher.forward(request, response);
-        } catch (ServletException e) {
+        } catch (ServletException | SQLException e) {
             e.printStackTrace();
             //TODO Navigate to same error page
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throw ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String view = request.getParamter("view");
+
+        String view = request.getParameter("view");
         //TODO If this method gets too large, handle in a private method.
         if (view.equals("add_view")) {
         //TODO Handle new book
@@ -53,10 +54,10 @@ public class LibraryData extends HttpServlet {
         try {
             DBConnection.insertBook(
                     new Book(
-                            request.getParameter("isbn");
-                            request.getParameter("title");
-                            Integer.valueOf(request.getParameter("edition_Number"));
-                            request.getParameter("copyright");
+                            request.getParameter("isbn"),
+                            request.getParameter("title"),
+                            Integer.valueOf(request.getParameter("edition_Number")),
+                            request.getParameter("copyright")
                             ));
         } catch (SQLException e) {
             e.printStackTrace();
