@@ -23,18 +23,32 @@ public class LibraryData extends HttpServlet {
         response.setContentType("text/html");
 
         //TODO Use a variable "view" to determine book or author query
+        String view = request.getParameter("view");
+        if (view.equals("books")) {
 
-        List<Book> bookList = null;
-        try {
-            bookList = DBConnection.getAllBooks();
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallbooks.jsp");
-            request.setAttribute("booklist", bookList);
-            String view = request.getParameter("view");
-            //TODO add the list to the request
-            requestDispatcher.forward(request, response);
-        } catch (ServletException | SQLException e) {
-            e.printStackTrace();
-            //TODO Navigate to same error page
+            List<Book> bookList = null;
+            try {
+                bookList = DBConnection.getAllBooks();
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallbooks.jsp");
+                request.setAttribute("booklist", bookList);
+                //TODO add the list to the request
+                requestDispatcher.forward(request, response);
+            } catch (ServletException | SQLException e) {
+                e.printStackTrace();
+                //TODO Navigate to same error page
+            }
+        } else if (view.equals("authors")){
+            List<Author> authorList = null;
+            try {
+                authorList = DBConnection.getAllAuthors();
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallauthors.jsp");
+                request.setAttribute("authorList", authorList);
+                //TODO add the list to the request
+                requestDispatcher.forward(request, response);
+            } catch (SQLException | ServletException throwables) {
+                throwables.printStackTrace();
+            }
+
         }
     }
 
@@ -45,25 +59,25 @@ public class LibraryData extends HttpServlet {
         String view = request.getParameter("view");
         //TODO If this method gets too large, handle in a private method.
         if (view.equals("add_view")) {
-        //TODO Handle new book
-        String isbn = request.getParameter("isbn");
-        String title = request.getParameter("title");
-        int editionNumber = Integer.valueOf(request.getParameter("edition_Number"));
-        String copyright = request.getParameter("copyright");
+            //TODO Handle new book
+            String isbn = request.getParameter("isbn");
+            String title = request.getParameter("title");
+            int editionNumber = Integer.valueOf(request.getParameter("edition_Number"));
+            String copyright = request.getParameter("copyright");
 
-        try {
-            DBConnection.insertBook(
-                    new Book(
-                            request.getParameter("isbn"),
-                            request.getParameter("title"),
-                            Integer.valueOf(request.getParameter("edition_Number")),
-                            request.getParameter("copyright")
-                            ));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            try {
+                DBConnection.insertBook(
+                        new Book(
+                                request.getParameter("isbn"),
+                                request.getParameter("title"),
+                                Integer.valueOf(request.getParameter("edition_Number")),
+                                request.getParameter("copyright")
+                        ));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
-        } else if (view.equals("add_author")){
+        } else if (view.equals("add_author")) {
             //TODO insert author
         } else {
             //Something went wrong? Do nothing?

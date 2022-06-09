@@ -79,6 +79,26 @@ public class DBConnection {
         return DriverManager.getConnection(BooksDatabaseSQL.DB_URL, BooksDatabaseSQL.USER, BooksDatabaseSQL.PASS);
     }
 
+    public static List<Author> getAllAuthors() throws SQLException{
+        LinkedList authorList = new LinkedList();
+        Connection connection = getBooksDBConnection();
+        Statement statement = connection.createStatement();
+        String sqlQuery = "SELECT * from " + BooksDatabaseSQL.AUTHOR_TABLE_NAME;
+
+        ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+        while (resultSet.next()) {
+            authorList.add(
+                    new Author(
+                            resultSet.getInt(BooksDatabaseSQL.AUTHOR_COL_NAME_AUTHORID),
+                            resultSet.getString(BooksDatabaseSQL.AUTHOR_COL_NAME_FIRSTNAME),
+                            resultSet.getString(BooksDatabaseSQL.AUTHOR_COL_NAME_LASTNAME)
+                    )
+            );
+        }
+        return authorList;
+    }
+
 
     /**
      * Simple inner class to abstract all the specific SQL Information
@@ -97,6 +117,10 @@ public class DBConnection {
         public static final String BOOK_COL_NAME_EDITION_NUMBER = "editionNumber";
         public static final String BOOK_COL_NAME_COPYRIGHT = "copyright";
 
+        public static final String AUTHOR_TABLE_NAME = "authors";
+        public static final String AUTHOR_COL_NAME_AUTHORID = "authorID";
+        public static final String AUTHOR_COL_NAME_FIRSTNAME= "firstName";
+        public static final String AUTHOR_COL_NAME_LASTNAME= "lastName";
     }
 
 }

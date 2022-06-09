@@ -10,7 +10,7 @@
 
 <!-- //TODO Add in a param to differentiate the books vs authors -->
 <li><a href="library-data?view=books">View all books</a></li>
-<li><a href="viewallbooks.jsp">View all Authors</a></li>
+<li><a href="library-data?view=authors">View all Authors</a></li>
 
 
 </body>
