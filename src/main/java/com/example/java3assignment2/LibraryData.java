@@ -58,7 +58,7 @@ public class LibraryData extends HttpServlet {
 
         String view = request.getParameter("view");
         //TODO If this method gets too large, handle in a private method.
-        if (view.equals("add_view")) {
+        if (view.equals("add_book")) {
             //TODO Handle new book
             try {
                 DBConnection.insertBook(

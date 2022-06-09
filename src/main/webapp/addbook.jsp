@@ -18,8 +18,8 @@ Add a Book
 <form action= "library-data" method = "POST">
     ISBN: <input type = "text" name = "isbn"> <br />
     Title: <input type = "text" name = "title" /> <br />
-    Edition Number: <input type = "text" name = "edition_number" /> <br />
-    Copyright: <input type = "text" name = "edition_number" />
+    Edition Number: <input type = "text" name = "edition_Number" /> <br />
+    Copyright: <input type = "text" name = "copyright" />
     <input type = "hidden" id="view" name="view" value = "add_book">
     <input type = "submit"  value = "Submit" />
 </form>

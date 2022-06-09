@@ -46,16 +46,17 @@ public class DBConnection {
         String sqlQuery = "INSERT INTO " + BooksDatabaseSQL.BOOK_TABLE_NAME + " VALUES (?,?,?,?)";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-
+        System.out.println("Statement prepared");
         //The 4 values are the books attributes
         preparedStatement.setString(1, book.getIsbn());
         preparedStatement.setString(2, book.getTitle());
-        //TODO is the String.valueOf the right method?
         preparedStatement.setInt(3, book.getEditionNumber());
         preparedStatement.setString(4, book.getCopyright());
-        ;
-
+        System.out.println("Statement populated");
+        int i  = preparedStatement.executeUpdate();
+        System.out.println("Records instered" + i);
     }
+
     public static void insertAuthor(Author author) throws SQLException {
         Connection connection = getBooksDBConnection();
 
@@ -66,6 +67,8 @@ public class DBConnection {
         //The 2 values are the author attributes
         preparedStatement.setString(1, author.getFirstName());
         preparedStatement.setString(2, author.getLastName());
+        int i  = preparedStatement.executeUpdate();
+        System.out.println("Records instered" + i);
     }
 
     /**
