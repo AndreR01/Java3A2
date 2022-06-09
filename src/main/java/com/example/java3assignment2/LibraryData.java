@@ -60,11 +60,6 @@ public class LibraryData extends HttpServlet {
         //TODO If this method gets too large, handle in a private method.
         if (view.equals("add_view")) {
             //TODO Handle new book
-            String isbn = request.getParameter("isbn");
-            String title = request.getParameter("title");
-            int editionNumber = Integer.valueOf(request.getParameter("edition_Number"));
-            String copyright = request.getParameter("copyright");
-
             try {
                 DBConnection.insertBook(
                         new Book(
@@ -78,7 +73,17 @@ public class LibraryData extends HttpServlet {
             }
 
         } else if (view.equals("add_author")) {
-            //TODO insert author
+        try{
+            DBConnection.insertAuthor(
+                    new Author(
+                            0,
+                            request.getParameter("firstName"),
+                            request.getParameter("lastName")
+                    ));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         } else {
             //Something went wrong? Do nothing?
         }

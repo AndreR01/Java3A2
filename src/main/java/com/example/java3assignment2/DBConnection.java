@@ -51,10 +51,21 @@ public class DBConnection {
         preparedStatement.setString(1, book.getIsbn());
         preparedStatement.setString(2, book.getTitle());
         //TODO is the String.valueOf the right method?
-        preparedStatement.setString(3, String.valueOf(book.getEditionNumber()));
+        preparedStatement.setInt(3, book.getEditionNumber());
         preparedStatement.setString(4, book.getCopyright());
         ;
 
+    }
+    public static void insertAuthor(Author author) throws SQLException {
+        Connection connection = getBooksDBConnection();
+
+        String sqlQuery = "INSERT INTO " + BooksDatabaseSQL.AUTHOR_TABLE_NAME + " VALUES (default,?,?)";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+
+        //The 2 values are the author attributes
+        preparedStatement.setString(1, author.getFirstName());
+        preparedStatement.setString(2, author.getLastName());
     }
 
     /**
@@ -98,6 +109,7 @@ public class DBConnection {
         }
         return authorList;
     }
+
 
 
     /**

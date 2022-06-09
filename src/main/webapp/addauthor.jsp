@@ -16,7 +16,6 @@ public String lastName;
 <h1>Add an Author</h1>
 
 <form action= "library-data" method = "POST">
-    AuthorID: <input type = "text" name = "authorID"> <br />
     First name: <input type = "text" name = "firstName" /> <br />
     Last name: <input type = "text" name = "lastName" />
     <input type = "hidden" id="view" name="view" value = "add_author">
