@@ -4,16 +4,25 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Java 3 CP3566 Spring 2022
+ * DB Connection class connects to the database; retrieves all book; retrieves all authors;
+ * inserts a new book; and inserts a new author
+ *
+ * @author Andre
+ */
+//TODO where to close the conn?
+// does it have to be closed after every ResultSet?
 public class DBConnection {
 
     /**
-     * Retrieve all of the books from the database into a LinkedList.
+     * Retrieve all books from the database into a LinkedList.
      * Note: this method is dangerous if the database is large. In our example it isn't.
      *
      * @return List of Book objects
      */
     public static List<Book> getAllBooks() throws SQLException {
-        LinkedList bookList = new LinkedList();
+        LinkedList<Book> bookList = new LinkedList<>();
         Connection connection = getBooksDBConnection();
         Statement statement = connection.createStatement();
         String sqlQuery = "SELECT * from " + BooksDatabaseSQL.BOOK_TABLE_NAME;
@@ -33,11 +42,10 @@ public class DBConnection {
         return bookList;
     }
 
-
     /**
      * Insert book into the database.
      *
-     * @param book
+     * @param book Book
      * @throws SQLException
      */
     public static void insertBook(Book book) throws SQLException {
@@ -53,10 +61,16 @@ public class DBConnection {
         preparedStatement.setInt(3, book.getEditionNumber());
         preparedStatement.setString(4, book.getCopyright());
         System.out.println("Statement populated");
-        int i  = preparedStatement.executeUpdate();
-        System.out.println("Records instered" + i);
+        int i = preparedStatement.executeUpdate();
+        System.out.println("Records inserted" + i);
     }
 
+    /**
+     * Insert and author into the database.
+     *
+     * @param author
+     * @throws SQLException
+     */
     public static void insertAuthor(Author author) throws SQLException {
         Connection connection = getBooksDBConnection();
 
@@ -67,8 +81,28 @@ public class DBConnection {
         //The 2 values are the author attributes
         preparedStatement.setString(1, author.getFirstName());
         preparedStatement.setString(2, author.getLastName());
-        int i  = preparedStatement.executeUpdate();
-        System.out.println("Records instered" + i);
+        int i = preparedStatement.executeUpdate();
+        System.out.println("Records inserted" + i);
+    }
+
+    public static List<Author> getAllAuthors() throws SQLException {
+        LinkedList<Author> authorList = new LinkedList<>();
+        Connection connection = getBooksDBConnection();
+        Statement statement = connection.createStatement();
+        String sqlQuery = "SELECT * from " + BooksDatabaseSQL.AUTHOR_TABLE_NAME;
+
+        ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+        while (resultSet.next()) {
+            authorList.add(
+                    new Author(
+                            resultSet.getInt(BooksDatabaseSQL.AUTHOR_COL_NAME_AUTHORID),
+                            resultSet.getString(BooksDatabaseSQL.AUTHOR_COL_NAME_FIRSTNAME),
+                            resultSet.getString(BooksDatabaseSQL.AUTHOR_COL_NAME_LASTNAME)
+                    )
+            );
+        }
+        return authorList;
     }
 
     /**
@@ -88,32 +122,9 @@ public class DBConnection {
         } catch (InstantiationException ex) {
             System.err.println("Error: unable to instantiate driver!");
         }
-
-
+        //TODO do i need conn.close
         return DriverManager.getConnection(BooksDatabaseSQL.DB_URL, BooksDatabaseSQL.USER, BooksDatabaseSQL.PASS);
     }
-
-    public static List<Author> getAllAuthors() throws SQLException{
-        LinkedList authorList = new LinkedList();
-        Connection connection = getBooksDBConnection();
-        Statement statement = connection.createStatement();
-        String sqlQuery = "SELECT * from " + BooksDatabaseSQL.AUTHOR_TABLE_NAME;
-
-        ResultSet resultSet = statement.executeQuery(sqlQuery);
-
-        while (resultSet.next()) {
-            authorList.add(
-                    new Author(
-                            resultSet.getInt(BooksDatabaseSQL.AUTHOR_COL_NAME_AUTHORID),
-                            resultSet.getString(BooksDatabaseSQL.AUTHOR_COL_NAME_FIRSTNAME),
-                            resultSet.getString(BooksDatabaseSQL.AUTHOR_COL_NAME_LASTNAME)
-                    )
-            );
-        }
-        return authorList;
-    }
-
-
 
     /**
      * Simple inner class to abstract all the specific SQL Information
@@ -134,10 +145,9 @@ public class DBConnection {
 
         public static final String AUTHOR_TABLE_NAME = "authors";
         public static final String AUTHOR_COL_NAME_AUTHORID = "authorID";
-        public static final String AUTHOR_COL_NAME_FIRSTNAME= "firstName";
-        public static final String AUTHOR_COL_NAME_LASTNAME= "lastName";
+        public static final String AUTHOR_COL_NAME_FIRSTNAME = "firstName";
+        public static final String AUTHOR_COL_NAME_LASTNAME = "lastName";
     }
-
 }
 
 //TODO FROM MEETING WITH JOSH build the web forms. hard code into servlet

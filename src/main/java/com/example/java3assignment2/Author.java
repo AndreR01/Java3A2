@@ -19,6 +19,7 @@ public class Author {
 
     /**
      * Constructor for an author object
+     *
      * @param authorID
      * @param firstName
      * @param lastName
@@ -32,6 +33,7 @@ public class Author {
 
     /**
      * Get the authorID.
+     *
      * @return authorID
      */
     public int getAuthorID() {
@@ -40,6 +42,7 @@ public class Author {
 
     /**
      * Sets the authorID.
+     *
      * @param authorID
      */
     public void setAuthorID(int authorID) {
@@ -48,6 +51,7 @@ public class Author {
 
     /**
      * Get the author's first name.
+     *
      * @return firstName
      */
     public String getFirstName() {
@@ -56,6 +60,7 @@ public class Author {
 
     /**
      * Set the author's first name.
+     *
      * @param firstName
      */
     public void setFirstName(String firstName) {
@@ -64,6 +69,7 @@ public class Author {
 
     /**
      * Get the author's last name.
+     *
      * @return lastName
      */
     public String getLastName() {
@@ -72,6 +78,7 @@ public class Author {
 
     /**
      * Set the author's last name.
+     *
      * @param lastName
      */
     public void setLastName(String lastName) {
@@ -80,6 +87,7 @@ public class Author {
 
     /**
      * Get at linked list of books.
+     *
      * @return bookList
      */
     public List<Book> getBookList() {
@@ -88,6 +96,7 @@ public class Author {
 
     /**
      * Set a linked list of books associated with the author.
+     *
      * @param bookList
      */
     public void setBookList(List<Book> bookList) {
@@ -96,21 +105,23 @@ public class Author {
 
     /**
      * Prints the author information and books associated with the author.
+     *
      * @param printStream
      */
     public void printAuthorsInfo(PrintStream printStream) {
         printStream.printf("\nAUTHOR ID: %d \t\t FIRST NAME: %-10s \t\t LAST NAME: %-10s",
                 this.getAuthorID(), this.getFirstName(), this.getLastName());
         bookList.stream().forEach((k) -> {
-            System.out.printf("\tISBN: %-12s TITLE: %-60s EDITION: %-5s", k.getIsbn(),k.getTitle(),k.getEditionNumber());
+            System.out.printf("\tISBN: %-12s TITLE: %-60s EDITION: %-5s", k.getIsbn(), k.getTitle(), k.getEditionNumber());
         });
     }
 
     /**
      * Prints the author's first and last name.
+     *
      * @param printStream
      */
-    public void printAuthorIDAndNameOnly(PrintStream printStream){
+    public void printAuthorIDAndNameOnly(PrintStream printStream) {
         printStream.printf("\nAUTHOR ID: %d \t\t FIRST NAME: %-10s \t\t LAST NAME: %-10s",
                 this.getAuthorID(), this.getFirstName(), this.getLastName());
     }

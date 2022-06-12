@@ -10,6 +10,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
+/**
+ * Java 3 CP3566 Spring 2022
+ * LibraryData class
+ *
+ * @author Andre
+ */
 @WebServlet(name = "LibraryData", value = "/library-data")
 public class LibraryData extends HttpServlet {
     private String message;
@@ -37,7 +43,7 @@ public class LibraryData extends HttpServlet {
                 e.printStackTrace();
                 //TODO Navigate to same error page
             }
-        } else if (view.equals("authors")){
+        } else if (view.equals("authors")) {
             List<Author> authorList = null;
             try {
                 authorList = DBConnection.getAllAuthors();
@@ -54,7 +60,6 @@ public class LibraryData extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 
         String view = request.getParameter("view");
         //TODO If this method gets too large, handle in a private method.
@@ -73,16 +78,16 @@ public class LibraryData extends HttpServlet {
             }
 
         } else if (view.equals("add_author")) {
-        try{
-            DBConnection.insertAuthor(
-                    new Author(
-                            0,
-                            request.getParameter("firstName"),
-                            request.getParameter("lastName")
-                    ));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            try {
+                DBConnection.insertAuthor(
+                        new Author(
+                                0,
+                                request.getParameter("firstName"),
+                                request.getParameter("lastName")
+                        ));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
         } else {
             //Something went wrong? Do nothing?
