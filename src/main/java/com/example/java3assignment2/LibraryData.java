@@ -19,9 +19,11 @@ import jakarta.servlet.annotation.*;
 @WebServlet(name = "LibraryData", value = "/library-data")
 public class LibraryData extends HttpServlet {
     private String message;
+    private LibraryManager libraryManager;
 
     public void init() {
         message = "Landing page for library data";
+        libraryManager = new LibraryManager();
     }
 
     @Override
@@ -34,12 +36,12 @@ public class LibraryData extends HttpServlet {
 
             List<Book> bookList = null;
             try {
-                bookList = DBConnection.getAllBooks();
+                bookList = libraryManager.getBookList();
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallbooks.jsp");
                 request.setAttribute("booklist", bookList);
                 //TODO add the list to the request
                 requestDispatcher.forward(request, response);
-            } catch (ServletException | SQLException e) {
+            } catch (ServletException e) {
                 e.printStackTrace();
                 //TODO Navigate to same error page
             }
@@ -92,10 +94,7 @@ public class LibraryData extends HttpServlet {
         } else {
             //Something went wrong? Do nothing?
         }
-
-
     }
-
 
     public void destroy() {
     }

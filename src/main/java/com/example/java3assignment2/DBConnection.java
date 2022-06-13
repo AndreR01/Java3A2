@@ -127,6 +127,32 @@ public class DBConnection {
     }
 
     /**
+     * Creates a list of authorISBN's from a result set on the authorISBN table.
+     *
+     * @return authorISBN
+     */
+    public static List<AuthorISBN> getAllISBN() throws SQLException {
+        LinkedList<AuthorISBN> authorISBN = new LinkedList<AuthorISBN>();
+
+        Connection connection = getBooksDBConnection();
+        Statement statement = connection.createStatement();
+        String sqlQuery = "SELECT * from " + BooksDatabaseSQL.AUTHORISBN_TABLE_NAME;
+
+        ResultSet resultSet = statement.executeQuery(sqlQuery);
+
+        while (resultSet.next()) {
+            authorISBN.add(
+                    new AuthorISBN(
+                            resultSet.getInt(BooksDatabaseSQL.AUTHORISBN_COL_NAME_AUTHORID),
+                            resultSet.getString(BooksDatabaseSQL.AUTHORISBN_COL_NAME_ISBN)
+                    )
+            );
+        }
+        return authorISBN;
+    }
+
+
+    /**
      * Simple inner class to abstract all the specific SQL Information
      */
     private class BooksDatabaseSQL {
@@ -147,6 +173,9 @@ public class DBConnection {
         public static final String AUTHOR_COL_NAME_AUTHORID = "authorID";
         public static final String AUTHOR_COL_NAME_FIRSTNAME = "firstName";
         public static final String AUTHOR_COL_NAME_LASTNAME = "lastName";
+        public static final String AUTHORISBN_TABLE_NAME = "authorisbn";
+        public static final String AUTHORISBN_COL_NAME_AUTHORID = "authorID";
+        public static final String AUTHORISBN_COL_NAME_ISBN = "isbn";
     }
 }
 
