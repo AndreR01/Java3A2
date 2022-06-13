@@ -48,15 +48,14 @@ public class LibraryData extends HttpServlet {
         } else if (view.equals("authors")) {
             List<Author> authorList = null;
             try {
-                authorList = DBConnection.getAllAuthors();
+                authorList = libraryManager.getAuthorList();
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallauthors.jsp");
                 request.setAttribute("authorList", authorList);
                 //TODO add the list to the request
                 requestDispatcher.forward(request, response);
-            } catch (SQLException | ServletException throwables) {
+            } catch (ServletException throwables) {
                 throwables.printStackTrace();
             }
-
         }
     }
 
@@ -68,27 +67,51 @@ public class LibraryData extends HttpServlet {
         if (view.equals("add_book")) {
             //TODO Handle new book
             try {
-                DBConnection.insertBook(
+                libraryManager.addBook(
                         new Book(
                                 request.getParameter("isbn"),
                                 request.getParameter("title"),
                                 Integer.valueOf(request.getParameter("edition_Number")),
                                 request.getParameter("copyright")
                         ));
+
             } catch (SQLException e) {
                 e.printStackTrace();
+            }
+            List<Book> bookList = null;
+            try {
+                bookList = libraryManager.getBookList();
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallbooks.jsp");
+                request.setAttribute("booklist", bookList);
+                //TODO add the list to the request
+                requestDispatcher.forward(request, response);
+            } catch (ServletException e) {
+                e.printStackTrace();
+                //TODO Navigate to same error page
             }
 
         } else if (view.equals("add_author")) {
             try {
-                DBConnection.insertAuthor(
+                Author createdAuthor = libraryManager.addAuthor(
                         new Author(
                                 0,
                                 request.getParameter("firstName"),
                                 request.getParameter("lastName")
                         ));
+                System.out.println("Created author ID is: " + createdAuthor.getAuthorID());
             } catch (SQLException e) {
                 e.printStackTrace();
+            }
+
+            List<Author> authorList = null;
+            try {
+                authorList = libraryManager.getAuthorList();
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallauthors.jsp");
+                request.setAttribute("authorList", authorList);
+                //TODO add the list to the request
+                requestDispatcher.forward(request, response);
+            } catch (ServletException throwables) {
+                throwables.printStackTrace();
             }
 
         } else {

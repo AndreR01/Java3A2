@@ -69,6 +69,7 @@ public class LibraryManager {
      * @param book
      */
     public void addBook(Book book) throws SQLException {
+        System.out.println("Adding book" + book.getTitle());
         DBConnection.insertBook(book);
         reloadFromDataSource();
     }
