@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.java3assignment2.Author" %>
+<%@ page import="com.example.java3assignment2.Book" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -19,14 +20,21 @@ Authors List
         <th>AuthorID</th>
         <th>First Name</th>
         <th>Last Name</th>
+        <th>Books by author</th>
     </tr>
 
     <%
         for (Author author: authorList) {
-            out.println("<tr>");
+            out.println("<tr valign='top'>");
             out.println("<td>" + author.getAuthorID() + "</td>");
             out.println("<td>" + author.getFirstName() + "</td>");
             out.println("<td>" + author.getLastName() + "</td>");
+            out.println("<td>");
+            for (Book book : author.getBookList()) {
+                out.println(book.title);
+                out.println("<br>");
+            }
+            out.println("</td>");
             out.println("</tr>");
         }
     %>

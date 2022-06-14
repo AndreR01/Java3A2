@@ -1,14 +1,15 @@
 package com.example.java3assignment2;
 
-import java.io.*;
-import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
-
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Java 3 CP3566 Spring 2022
@@ -34,10 +35,9 @@ public class LibraryData extends HttpServlet {
      * @throws IOException
      */
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
 
-        //TODO Use a variable "view" to determine book or author query
         String view = request.getParameter("view");
         if (view.equals("books")) {
 
@@ -46,11 +46,9 @@ public class LibraryData extends HttpServlet {
                 bookList = libraryManager.getBookList();
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallbooks.jsp");
                 request.setAttribute("booklist", bookList);
-                //TODO add the list to the request
                 requestDispatcher.forward(request, response);
             } catch (ServletException e) {
-                e.printStackTrace();
-                //TODO Navigate to same error page
+                errorMessage(request, response, e);
             }
         } else if (view.equals("authors")) {
             List<Author> authorList = null;
@@ -58,26 +56,31 @@ public class LibraryData extends HttpServlet {
                 authorList = libraryManager.getAuthorList();
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallauthors.jsp");
                 request.setAttribute("authorList", authorList);
-                //TODO add the list to the request
                 requestDispatcher.forward(request, response);
-            } catch (ServletException throwables) {
-                throwables.printStackTrace();
+            } catch (ServletException e) {
+                errorMessage(request, response, e);
             }
         }
     }
 
+    private void errorMessage(HttpServletRequest request, HttpServletResponse response, Exception e) throws ServletException, IOException {
+        e.printStackTrace();
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("errorpage.jsp");
+        request.setAttribute("error", e.getMessage());
+        requestDispatcher.forward(request, response);
+    }
+
     /**
-     * Allow servlet to handle the POST request. Send user's data to the server.
+     * Allow servlet to handle the POST request. Process the user's data.
      *
-     * @param request
-     * @param response
+     * @param request isbn
+     * @param response view all book OR view all authors
      * @throws ServletException
      * @throws IOException
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //TODO If this method gets too large, handle in a private method.
         String view = request.getParameter("view");
 
         // Add a new book to the database
@@ -92,7 +95,7 @@ public class LibraryData extends HttpServlet {
                         ));
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                errorMessage(request, response, e);
             }
 
             // Return to the view of the book list including the new book
@@ -101,11 +104,9 @@ public class LibraryData extends HttpServlet {
                 bookList = libraryManager.getBookList();
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallbooks.jsp");
                 request.setAttribute("booklist", bookList);
-                //TODO add the list to the request
-                requestDispatcher.forward(request, response);
+                 requestDispatcher.forward(request, response);
             } catch (ServletException e) {
-                e.printStackTrace();
-                //TODO Navigate to same error page
+                errorMessage(request, response, e);
             }
 
             // Add a new author to the database
@@ -119,7 +120,7 @@ public class LibraryData extends HttpServlet {
                         ));
                 System.out.println("Created author ID is: " + createdAuthor.getAuthorID());
             } catch (SQLException e) {
-                e.printStackTrace();
+                errorMessage(request, response, e);
             }
 
             // Return to view of the author list including new author
@@ -128,10 +129,9 @@ public class LibraryData extends HttpServlet {
                 authorList = libraryManager.getAuthorList();
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("viewallauthors.jsp");
                 request.setAttribute("authorList", authorList);
-                //TODO add the list to the request
                 requestDispatcher.forward(request, response);
-            } catch (ServletException throwables) {
-                throwables.printStackTrace();
+            } catch (ServletException e) {
+                errorMessage(request, response, e);
             }
 
         } else {

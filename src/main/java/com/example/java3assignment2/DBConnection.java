@@ -11,7 +11,6 @@ import java.util.List;
  *
  * @author Andre
  */
-//TODO close the conn?
 public class DBConnection {
 
     /**
@@ -27,7 +26,7 @@ public class DBConnection {
         String sqlQuery = "SELECT * from " + BooksDatabaseSQL.BOOK_TABLE_NAME;
 
         ResultSet resultSet = statement.executeQuery(sqlQuery);
-
+        connection.close();
         while (resultSet.next()) {
             bookList.add(
                     new Book(
@@ -62,6 +61,7 @@ public class DBConnection {
         System.out.println("Statement populated");
         int i = preparedStatement.executeUpdate();
         System.out.println("Records inserted" + i);
+        connection.close();
     }
 
     /**
@@ -82,6 +82,7 @@ public class DBConnection {
         preparedStatement.setString(2, author.getLastName());
         int i = preparedStatement.executeUpdate();
         System.out.println("Records inserted" + i);
+        connection.close();
     }
 
 
@@ -98,7 +99,7 @@ public class DBConnection {
         String sqlQuery = "SELECT * from " + BooksDatabaseSQL.AUTHOR_TABLE_NAME;
 
         ResultSet resultSet = statement.executeQuery(sqlQuery);
-
+        connection.close();
         while (resultSet.next()) {
             authorList.add(
                     new Author(
@@ -128,7 +129,6 @@ public class DBConnection {
         } catch (InstantiationException ex) {
             System.err.println("Error: unable to instantiate driver!");
         }
-        //TODO do i need conn.close
         return DriverManager.getConnection(BooksDatabaseSQL.DB_URL, BooksDatabaseSQL.USER, BooksDatabaseSQL.PASS);
     }
 
@@ -146,7 +146,7 @@ public class DBConnection {
         String sqlQuery = "SELECT * from " + BooksDatabaseSQL.AUTHORISBN_TABLE_NAME;
 
         ResultSet resultSet = statement.executeQuery(sqlQuery);
-
+        connection.close();
         while (resultSet.next()) {
             authorISBN.add(
                     new AuthorISBN(
@@ -185,5 +185,3 @@ public class DBConnection {
         public static final String AUTHORISBN_COL_NAME_ISBN = "isbn";
     }
 }
-
-//TODO FROM MEETING WITH JOSH build the web forms. hard code into servlet
