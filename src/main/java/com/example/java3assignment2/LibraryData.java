@@ -26,6 +26,13 @@ public class LibraryData extends HttpServlet {
         libraryManager = new LibraryManager();
     }
 
+    /**
+     * Process GET requests sent to server.
+     *
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
@@ -59,13 +66,22 @@ public class LibraryData extends HttpServlet {
         }
     }
 
+    /**
+     * Allow servlet to handle the POST request. Send user's data to the server.
+     *
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String view = request.getParameter("view");
         //TODO If this method gets too large, handle in a private method.
+        String view = request.getParameter("view");
+
+        // Add a new book to the database
         if (view.equals("add_book")) {
-            //TODO Handle new book
             try {
                 libraryManager.addBook(
                         new Book(
@@ -78,6 +94,8 @@ public class LibraryData extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
+            // Return to the view of the book list including the new book
             List<Book> bookList = null;
             try {
                 bookList = libraryManager.getBookList();
@@ -90,6 +108,7 @@ public class LibraryData extends HttpServlet {
                 //TODO Navigate to same error page
             }
 
+            // Add a new author to the database
         } else if (view.equals("add_author")) {
             try {
                 Author createdAuthor = libraryManager.addAuthor(
@@ -103,6 +122,7 @@ public class LibraryData extends HttpServlet {
                 e.printStackTrace();
             }
 
+            // Return to view of the author list including new author
             List<Author> authorList = null;
             try {
                 authorList = libraryManager.getAuthorList();
@@ -119,6 +139,10 @@ public class LibraryData extends HttpServlet {
         }
     }
 
+
+    /**
+     * Release the datatbase object created in the init method.
+     */
     public void destroy() {
     }
 }

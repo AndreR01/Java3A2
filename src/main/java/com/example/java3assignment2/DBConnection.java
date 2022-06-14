@@ -11,8 +11,7 @@ import java.util.List;
  *
  * @author Andre
  */
-//TODO where to close the conn?
-// does it have to be closed after every ResultSet?
+//TODO close the conn?
 public class DBConnection {
 
     /**
@@ -66,7 +65,7 @@ public class DBConnection {
     }
 
     /**
-     * Insert and author into the database.
+     * Insert an author into the database.
      *
      * @param author
      * @throws SQLException
@@ -85,6 +84,13 @@ public class DBConnection {
         System.out.println("Records inserted" + i);
     }
 
+
+    /**
+     * Creates a list of authors from the result set of the author's table.
+     *
+     * @return authorList
+     * @throws SQLException
+     */
     public static List<Author> getAllAuthors() throws SQLException {
         LinkedList<Author> authorList = new LinkedList<>();
         Connection connection = getBooksDBConnection();
@@ -130,6 +136,7 @@ public class DBConnection {
      * Creates a list of authorISBN's from a result set on the authorISBN table.
      *
      * @return authorISBN
+     * @throws SQLException
      */
     public static List<AuthorISBN> getAllISBN() throws SQLException {
         LinkedList<AuthorISBN> authorISBN = new LinkedList<AuthorISBN>();
