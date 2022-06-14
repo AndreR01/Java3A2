@@ -63,12 +63,6 @@ public class LibraryData extends HttpServlet {
         }
     }
 
-    private void errorMessage(HttpServletRequest request, HttpServletResponse response, Exception e) throws ServletException, IOException {
-        e.printStackTrace();
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("errorpage.jsp");
-        request.setAttribute("error", e.getMessage());
-        requestDispatcher.forward(request, response);
-    }
 
     /**
      * Allow servlet to handle the POST request. Process the user's data.
@@ -139,6 +133,21 @@ public class LibraryData extends HttpServlet {
         }
     }
 
+    /**
+     * Simple inner class to abstract error message
+     *
+     * @param request
+     * @param response
+     * @param e
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void errorMessage(HttpServletRequest request, HttpServletResponse response, Exception e) throws ServletException, IOException {
+        e.printStackTrace();
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("errorpage.jsp");
+        request.setAttribute("error", e.getMessage());
+        requestDispatcher.forward(request, response);
+    }
 
     /**
      * Release the datatbase object created in the init method.
